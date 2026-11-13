@@ -47,94 +47,84 @@ function Header({ cartCount, onOpenCart, scrolled }) {
 }
 
 function Hero({ onClaim }) {
-  const [phase, setPhase] = useState(0)
-  const [landed, setLanded] = useState([])
-  const CHICKEN = 'https://cdn.rawpng.com/1096637670.webp'
-  const pieces = [
-    { id: 0, x: -65, rot: -28, d: 0.00, w: 88 },
-    { id: 1, x:  28, rot:  18, d: 0.14, w: 96 },
-    { id: 2, x: -30, rot: -14, d: 0.28, w: 82 },
-    { id: 3, x:  50, rot:  32, d: 0.40, w: 90 },
-    { id: 4, x:  -8, rot:  -6, d: 0.52, w: 100 },
-    { id: 5, x:  38, rot:  22, d: 0.64, w: 86 },
-    { id: 6, x: -48, rot: -20, d: 0.76, w: 92 },
-    { id: 7, x:  12, rot:  10, d: 0.88, w: 94 },
-  ]
+  const [ready, setReady] = useState(false)
+
   useEffect(() => {
-    const a = setTimeout(() => setPhase(1), 500)
-    const b = setTimeout(() => setPhase(2), 1300)
-    const c = setTimeout(() => setPhase(3), 3100)
-    return () => { clearTimeout(a); clearTimeout(b); clearTimeout(c) }
+    const t = setTimeout(() => setReady(true), 400)
+    return () => clearTimeout(t)
   }, [])
-  const onLand = id => setLanded(p => p.includes(id) ? p : [...p, id])
+
+  const BUCKET_IMG = 'https://images.pexels.com/photos/5474676/pexels-photo-5474676.jpeg?auto=compress&cs=tinysrgb&w=800'
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden" style={{ background: 'radial-gradient(ellipse at 50% 80%, #A01A1A 0%, #6B0F0F 45%, #2A0404 100%)' }}>
-      <div className="absolute bottom-0 inset-x-0 h-56 bg-gradient-to-t from-black/55 to-transparent" />
-      {[...Array(16)].map((_, i) => (
-        <div key={i} className="absolute rounded-full" style={{ width: 2+(i%3), height: 2+(i%3), background: 'rgba(160,110,40,0.3)', bottom: 24+(i*9)%60, left: `${6+(i*5.8)%88}%` }} />
+    <section className="relative min-h-screen flex items-center overflow-hidden" style={{ background: 'radial-gradient(ellipse at 50% 70%, #9B1B1B 0%, #5C0C0C 50%, #1A0202 100%)' }}>
+      <div className="absolute bottom-0 inset-x-0 h-64 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+      {[...Array(12)].map((_, i) => (
+        <div key={i} className="absolute rounded-full opacity-40" style={{
+          width: 2 + (i % 3), height: 2 + (i % 3),
+          background: '#C48A3A',
+          bottom: 40 + (i * 12) % 80,
+          left: `${8 + (i * 7) % 84}%`,
+        }} />
       ))}
-      <div className="max-w-7xl mx-auto px-4 w-full grid md:grid-cols-2 gap-6 items-center pt-24 pb-14 relative z-10">
-        <motion.div initial={{ opacity: 0, x: -50 }} animate={phase >= 3 ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.75 }} className="order-2 md:order-1">
+
+      <div className="max-w-7xl mx-auto px-4 w-full grid md:grid-cols-2 gap-8 items-center pt-24 pb-16 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          animate={ready ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="order-2 md:order-1"
+        >
           <h1 className="font-anton text-5xl sm:text-6xl md:text-7xl lg:text-[5.2rem] leading-[0.9] tracking-tight mb-5">
             CRISP THAT<br /><span className="text-yellow-400">HITS HARDER.</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/65 font-medium tracking-wide mb-8">SERIOUS CRUNCH. NO APOLOGIES.</p>
+          <p className="text-lg md:text-xl text-white/65 font-medium tracking-wide mb-8">
+            SERIOUS CRUNCH. NO APOLOGIES.
+          </p>
           <div className="flex flex-wrap gap-4">
-            <button onClick={onClaim} className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-full text-sm tracking-wider hover:scale-105 shadow-xl shadow-yellow-400/25">CLAIM YOUR BUCKET</button>
-            <a href="#meals" className="bg-white/10 border border-white/20 text-white font-semibold px-8 py-4 rounded-full text-sm tracking-wider hover:bg-white/20">EXPLORE MEALS</a>
+            <button
+              onClick={onClaim}
+              className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-full text-sm tracking-wider transition-all hover:scale-105 shadow-xl shadow-yellow-400/25"
+            >
+              CLAIM YOUR BUCKET
+            </button>
+            <a
+              href="#meals"
+              className="bg-white/10 backdrop-blur border border-white/20 text-white font-semibold px-8 py-4 rounded-full text-sm tracking-wider hover:bg-white/20 transition-all"
+            >
+              EXPLORE MEALS
+            </a>
           </div>
         </motion.div>
 
-        <div className="order-1 md:order-2 relative h-[460px] md:h-[540px] flex items-end justify-center">
-          {phase >= 2 && pieces.map(p => (
-            <motion.img key={p.id} src={CHICKEN} alt="" className="absolute z-30 pointer-events-none select-none"
-              style={{ left: '50%', width: p.w, marginLeft: p.x, filter: 'drop-shadow(0 10px 14px rgba(0,0,0,0.5))' }}
-              initial={{ y: -300, opacity: 1, rotate: p.rot, scale: 1.1 }}
-              animate={{ y: [-300, 125, 142, 135], opacity: [1,1,1,0], rotate: [p.rot, p.rot+48, p.rot+10], scale: [1.1,1,0.88] }}
-              transition={{ duration: 0.95, delay: p.d, times: [0,0.6,0.8,1], ease: [0.22,0.8,0.3,1] }}
-              onAnimationComplete={() => onLand(p.id)}
+        <motion.div
+          className="order-1 md:order-2 relative flex items-end justify-center"
+          initial={{ opacity: 0, y: 50, scale: 0.92 }}
+          animate={ready ? { opacity: 1, y: 0, scale: 1 } : {}}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="relative">
+            <img
+              src={BUCKET_IMG}
+              alt="CRISPYPOP Bucket"
+              className="relative z-10 w-[280px] sm:w-[320px] md:w-[380px] lg:w-[420px] object-contain drop-shadow-2xl rounded-2xl"
+              style={{ filter: 'drop-shadow(0 30px 40px rgba(0,0,0,0.55))' }}
             />
-          ))}
-
-          <motion.div className="relative z-20" initial={{ rotate: -13, y: 32, scale: 0.93 }}
-            animate={phase >= 1 ? { rotate: 0, y: 0, scale: 1 } : {}}
-            transition={{ type: 'spring', stiffness: 70, damping: 13 }}>
-            <div className="relative" style={{ width: 230, height: 255 }}>
-              <div className="absolute inset-0" style={{
-                background: 'linear-gradient(168deg, #D02020 0%, #B01818 30%, #8A1212 65%, #5E0C0C 100%)',
-                borderRadius: '6px 6px 38px 38px',
-                clipPath: 'polygon(7% 0%, 93% 0%, 100% 100%, 0% 100%)',
-                boxShadow: '0 28px 55px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.1)',
-              }} />
-              <div className="absolute top-0 left-[3%] right-[3%] h-[16px] z-20" style={{
-                background: 'linear-gradient(180deg, #F8F4EC, #EDE5D5)',
-                borderRadius: '5px 5px 1px 1px',
-                boxShadow: '0 2px 3px rgba(0,0,0,0.25)',
-              }} />
-              <div className="absolute top-[26%] inset-x-0 z-10 flex justify-center">
-                <span className="font-anton text-[24px] tracking-[0.1em]" style={{ color: '#F0D060', textShadow: '0 2px 6px rgba(0,0,0,0.45)' }}>CRISPYPOP</span>
-              </div>
-              <div className="absolute left-[11%] right-[11%] top-[36%] bottom-[7%] z-10 overflow-hidden flex flex-wrap content-end justify-center">
-                <AnimatePresence>
-                  {landed.map(id => (
-                    <motion.img key={id} src={CHICKEN} alt="" className="object-contain"
-                      style={{ width: 68+(id%3)*10, margin: '-8px', filter: 'drop-shadow(0 2px 5px rgba(0,0,0,0.35))' }}
-                      initial={{ scale: 0, y: -35 }} animate={{ scale: 1, y: 0 }}
-                      transition={{ type: 'spring', stiffness: 320, damping: 15 }}
-                    />
-                  ))}
-                </AnimatePresence>
-              </div>
-              <div className="absolute top-[14%] left-[9%] w-[16%] h-[48%] rounded-full pointer-events-none z-[5]"
-                style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0.13), transparent)', filter: 'blur(5px)' }} />
-            </div>
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-44 h-5" style={{ background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%)', filter: 'blur(3px)' }} />
-          </motion.div>
-        </div>
+            <div
+              className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[70%] h-10 pointer-events-none"
+              style={{ background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%)', filter: 'blur(6px)' }}
+            />
+          </div>
+        </motion.div>
       </div>
-      <motion.div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/35" animate={{ y: [0,7,0] }} transition={{ repeat: Infinity, duration: 1.6 }}>
-        <Mouse size={18} /><span className="text-[10px] tracking-[0.3em] font-semibold">SCROLL TO DROP</span>
+
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/35"
+        animate={{ y: [0, 7, 0] }}
+        transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
+      >
+        <Mouse size={18} />
+        <span className="text-[10px] tracking-[0.3em] font-semibold">SCROLL TO DROP</span>
       </motion.div>
     </section>
   )
