@@ -48,83 +48,40 @@ function Header({ cartCount, onOpenCart, scrolled }) {
 
 function Hero({ onClaim }) {
   const [ready, setReady] = useState(false)
-
   useEffect(() => {
     const t = setTimeout(() => setReady(true), 400)
     return () => clearTimeout(t)
   }, [])
-
   const BUCKET_IMG = 'https://images.pexels.com/photos/5474676/pexels-photo-5474676.jpeg?auto=compress&cs=tinysrgb&w=800'
-
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden" style={{ background: 'radial-gradient(ellipse at 50% 70%, #9B1B1B 0%, #5C0C0C 50%, #1A0202 100%)' }}>
       <div className="absolute bottom-0 inset-x-0 h-64 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       {[...Array(12)].map((_, i) => (
         <div key={i} className="absolute rounded-full opacity-40" style={{
-          width: 2 + (i % 3), height: 2 + (i % 3),
-          background: '#C48A3A',
-          bottom: 40 + (i * 12) % 80,
-          left: `${8 + (i * 7) % 84}%`,
+          width: 2 + (i % 3), height: 2 + (i % 3), background: '#C48A3A',
+          bottom: 40 + (i * 12) % 80, left: `${8 + (i * 7) % 84}%`,
         }} />
       ))}
-
       <div className="max-w-7xl mx-auto px-4 w-full grid md:grid-cols-2 gap-8 items-center pt-24 pb-16 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={ready ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="order-2 md:order-1"
-        >
+        <motion.div initial={{ opacity: 0, x: -40 }} animate={ready ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }} className="order-2 md:order-1">
           <h1 className="font-anton text-5xl sm:text-6xl md:text-7xl lg:text-[5.2rem] leading-[0.9] tracking-tight mb-5">
             CRISP THAT<br /><span className="text-yellow-400">HITS HARDER.</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/65 font-medium tracking-wide mb-8">
-            SERIOUS CRUNCH. NO APOLOGIES.
-          </p>
+          <p className="text-lg md:text-xl text-white/65 font-medium tracking-wide mb-8">SERIOUS CRUNCH. NO APOLOGIES.</p>
           <div className="flex flex-wrap gap-4">
-            <button
-              onClick={onClaim}
-              className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-full text-sm tracking-wider transition-all hover:scale-105 shadow-xl shadow-yellow-400/25"
-            >
-              CLAIM YOUR BUCKET
-            </button>
-            <a
-              href="#meals"
-              className="bg-white/10 backdrop-blur border border-white/20 text-white font-semibold px-8 py-4 rounded-full text-sm tracking-wider hover:bg-white/20 transition-all"
-            >
-              EXPLORE MEALS
-            </a>
+            <button onClick={onClaim} className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-4 rounded-full text-sm tracking-wider transition-all hover:scale-105 shadow-xl shadow-yellow-400/25">CLAIM YOUR BUCKET</button>
+            <a href="#meals" className="bg-white/10 backdrop-blur border border-white/20 text-white font-semibold px-8 py-4 rounded-full text-sm tracking-wider hover:bg-white/20 transition-all">EXPLORE MEALS</a>
           </div>
         </motion.div>
-
-        <motion.div
-          className="order-1 md:order-2 relative flex items-end justify-center"
-          initial={{ opacity: 0, y: 50, scale: 0.92 }}
-          animate={ready ? { opacity: 1, y: 0, scale: 1 } : {}}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <motion.div className="order-1 md:order-2 relative flex items-end justify-center" initial={{ opacity: 0, y: 50, scale: 0.92 }} animate={ready ? { opacity: 1, y: 0, scale: 1 } : {}} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
           <div className="relative">
-            <img
-              src={BUCKET_IMG}
-              alt="CRISPYPOP Bucket"
-              className="relative z-10 w-[280px] sm:w-[320px] md:w-[380px] lg:w-[420px] object-contain drop-shadow-2xl rounded-2xl"
-              style={{ filter: 'drop-shadow(0 30px 40px rgba(0,0,0,0.55))' }}
-            />
-            <div
-              className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[70%] h-10 pointer-events-none"
-              style={{ background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%)', filter: 'blur(6px)' }}
-            />
+            <img src={BUCKET_IMG} alt="CRISPYPOP Bucket" className="relative z-10 w-[280px] sm:w-[320px] md:w-[380px] lg:w-[420px] object-contain drop-shadow-2xl rounded-2xl" style={{ filter: 'drop-shadow(0 30px 40px rgba(0,0,0,0.55))' }} />
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[70%] h-10 pointer-events-none" style={{ background: 'radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%)', filter: 'blur(6px)' }} />
           </div>
         </motion.div>
       </div>
-
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/35"
-        animate={{ y: [0, 7, 0] }}
-        transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
-      >
-        <Mouse size={18} />
-        <span className="text-[10px] tracking-[0.3em] font-semibold">SCROLL TO DROP</span>
+      <motion.div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/35" animate={{ y: [0, 7, 0] }} transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}>
+        <Mouse size={18} /><span className="text-[10px] tracking-[0.3em] font-semibold">SCROLL TO DROP</span>
       </motion.div>
     </section>
   )
@@ -208,6 +165,32 @@ function MenuGrid({ onAdd }) {
   )
 }
 
+function Anatomy() {
+  const points = [
+    { title: 'TRIPLE-CRUNCH FLOUR COATING', desc: 'Three layers of seasoned flour for maximum shatter.' },
+    { title: '24-HOUR HERB BUTTERMILK BATH', desc: 'Slow brine for juicy meat and deep flavor.' },
+    { title: 'DOUBLE-PRESSURE FLASH FRY', desc: 'Sealed crust, steam-locked tenderness.' },
+    { title: 'PURE HIGH-OLEIC SUNFLOWER OIL', desc: 'Clean fry, zero heavy aftertaste.' },
+  ]
+  return (
+    <section className="py-24 bg-[#121212]">
+      <div className="max-w-7xl mx-auto px-4">
+        <h2 className="font-anton text-4xl md:text-6xl text-center mb-4 tracking-wide">ANATOMY OF THE PERFECT CRUNCH</h2>
+        <p className="text-center text-white/50 mb-16 max-w-xl mx-auto">Four non-negotiables. No shortcuts. Ever.</p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {points.map((p, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-yellow-400/40 transition-colors">
+              <div className="w-10 h-10 rounded-full bg-yellow-400 text-black font-anton text-lg flex items-center justify-center mb-4">{i + 1}</div>
+              <h3 className="font-oswald text-lg mb-2 tracking-wide">{p.title}</h3>
+              <p className="text-white/55 text-sm leading-relaxed">{p.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function Footer() {
   const [loc, setLoc] = useState(0)
   const L = LOCATIONS[loc]
@@ -263,8 +246,17 @@ function CartDrawer({ open, onClose, cart, setCart }) {
             ))}
           </div>
           {cart.length > 0 && <div className="p-5 border-t border-white/10 space-y-4">
+            <div>
+              <div className="flex justify-between text-xs text-white/50 mb-1">
+                <span>Free delivery progress</span>
+                <span>{total >= 25 ? 'UNLOCKED' : `€${(25 - total).toFixed(2)} more`}</span>
+              </div>
+              <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full bg-yellow-400 transition-all duration-500" style={{ width: `${Math.min(100, (total / 25) * 100)}%` }} />
+              </div>
+            </div>
             <div className="flex justify-between font-bold text-lg"><span>Total</span><span className="text-yellow-400">€{total.toFixed(2)}</span></div>
-            <button className="w-full bg-yellow-400 text-black font-bold py-4 rounded-full">CHECKOUT — €{total.toFixed(2)}</button>
+            <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 rounded-full transition-colors">CHECKOUT — €{total.toFixed(2)}</button>
           </div>}
         </motion.div>
       </motion.div>
@@ -286,6 +278,7 @@ export default function App() {
       <MealSelector onAdd={add} />
       <Marquee />
       <MenuGrid onAdd={add} />
+      <Anatomy />
       <Footer />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} setCart={setCart} />
     </div>
